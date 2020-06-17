@@ -1,64 +1,146 @@
 Simulation Process
     - init >
-        (survival/consumption/reproduction > inheritance > mutation > record) >
+        (
+            survival >
+            reproduction >
+            record >
+            end check >
+            upkeep
+            event
+        ) >
         export
 
 ---
 
 Initialization Process
     - Input variables
-        - initial population size
-        - initial global
+        - generation count
+        - initial population variables
+            - population count
+            - distribution range
+        - initial global variables
             - breeding population range
             - speciation threshold
             - mutation rate
             - mutation variance
             - inheritance model
             - proliferation
-        - initial environment
-            - size
-                - max longitude, max latitude
+        - initial environment variables
+            - sub environments
+            - max longitude & max latitude
+            - range radius
             - survival target
             - resource
                 - max
-                - recovery rate
-        - event roster
-        - initial organism trait
+                - replenishment rate
+        - initial organism variables
             - survival
             - reproductive
             - consumption
-            - territory range
-            - offspring range
+            - territory radius
+            - offspring radius
             - proliferation
+        - event roster
         - display model
+        - export variabls
+            - path
+            - format
+        
+
+    - Proliferate organisms equal to the initial population size
 
 ---
+(
+Collection Process
+    - collect organisms into baskets to be used in Survival and Reproduction
 
 Survival Process
-
-Consumption Process
-
+    - orders organisms by survival fitness
+    - organisms below survival threshold
+    (
+    Consumption Process
+        - allocates environment resources to fittest organisms
+        - when resources are depleted no unprocessed organisms can breed
+    )
 Reproduction Process
+    - orders organisms by reproduction trait
+    (
+    Speciation Process
+        - establishes breeding pairs in ascending order
+        - if distance between current and previous index if greater than
+            speciation threshold, new pool of breeding pairs is established
+        - if population is uneven, least fit organism in pool is removed
+    
+    Inheritance Process
+        - Dominance Strategy
+            - randomly selects trait from one parent for inheritance
+        - Random Strategy
+            - randomly selects value between traits of both parents for
+                inheritance
+        - Average Strategy
+            - uses the rounded average of triat between both parents for
+                inheritance
+    
+    Mutation Process
+        - roll RNG per breeding pair to determine if mutation event occurs
+        - randomly select trait for each mutation event
+        - apply RNG roll modifier to trait of offspring
 
-Inheritance Process
-
-Mutation Process
-
+    Proliferation Process
+        - generate a number of organisms equal to the inherited proliferation
+            trait of offspring.
+    )
 Recording Process
+    - record generation data into geneology to be exported after completion
+        of the simulation
 
-Movement Process
+End Check Process
+    - if no organisms are left alive, end the simulation loop and move on
+        to export process.
+
+Upkeep Process
+    (
+    Replenishment Process
+        - replensh all environments' resource count based on their modifier
+            up to their max
+    )
 
 Event Process
+    - activate any relevant event commands on current simulation state
 
+*Repeat
+)
 ---
 
 Export Process
+    - export to specified path with specified format
+        - path should be directory, not filename
+    - supported formats
+        csv,
+        txt,
+        json,
+        file-like,
+        dict
+    - exports files
+        simulation state
+            - global variables indexed by generation #
+        organism geneology
+            - all organism values indexed by organism id and generation #
+        environment history
+            - all environment values indexed by environment id and generation #
+        event history
+            - all events and that
 
 ----------------------------------------------------------------------
 Organism variables
 
+Id
+    - unique identifier for each organism
+
+Parents
+    - ids of both parent organisms
+
 Reproductive Trait
-    - per organism
     - arbitrary numeric value
     - compared between members of a breeding pair to determine
         reproductive feasibility
@@ -66,36 +148,28 @@ Reproductive Trait
         breeding fails
 
 Survival Trait
-    - per organism
     - arbitrary numeric value
     - compared to survival target of environment
     - if difference between organism and environment is greater than
         environments survival target, they cannot breed.
 
 Consumption Trait
-    - per organism
     - determines how much resource is consumed by organism prior to
         reproduction
     - environment has limited resources, the most survival fit will be
         prioritized in resource allocation
     - organisms whose consumption trait is not met cannot breed.
 
-Territory Range
-    - per organism
-    - determines how far an organism can move from its current position.
-
-Offspring Range
-    - curve or static, global (or per environment?)
-    - RNG coordinate range from the center distance between
-        members of a breeding pair in which a new organism created
+Offspring Radius
+    - how far offspring can spawn from the center distance between members
+        of a breeding pair
 
 Proliferation Modifier
-    - per organism
     - modifier that determines how much survival and consumption fitness
-        contributes to offspring rate
-    - should not be lower than 1
+        contributes to offspring count
+    - should not be lower than 1 (?)
 
-Fitness (Survival/Reproductive)
+Fitness (Survival/Reproductive)*
     - per organism
     - absolute distance between organism's trait and environment/reproduction
         target
@@ -103,6 +177,35 @@ Fitness (Survival/Reproductive)
 
 ----------------------------------------------------------------------
 Environment variables
+
+Max Longitude and Max Latitude
+    - Root environment only
+    - the max longitude and latitude an organism or sub environment can have
+
+Longitude and Latitude
+    - coordinates for the center point of an environment
+
+Range radius
+    - max distance an organism can be from environment center to contained
+        within that environment
+    
+##Range function
+##    - function that determines the outer edge of an environment
+##    - coordinates of an organism are passed to function to determine if
+##        organism is contained within that environment
+
+Survival Target
+    - arbitrary numeric value
+    - determines survival fitness of organisms contained within the
+        environment
+
+Max Resource
+    - max number of resources contained within the environment
+    - allocated to the most fit organisms in the environment
+    - determines which of the fittest organisms can breed.
+
+Resource Replenishment Rate
+    - rate at which resources will replenish with in the environment
 
 ----------------------------------------------------------------------
 Global variables
@@ -112,11 +215,17 @@ Breeding Population Range
     - environment is broken into breeding range baskets
     - organisms within breeding range form breeding pairs
 
+Survival Threshold
+    - static, global
+    - organism survival trait comparison;
+        if difference between organism > threshold,
+        organism cannot breed.
+
 Speciation Threshold
     - static, global
     - organism reproduction trait comparison;
-        if difference between organisms > threshold,
-        organisms cannot breed.
+        if difference between organism > threshold,
+        organism cannot breed.
 
 Mutation Rate
     - static, global
