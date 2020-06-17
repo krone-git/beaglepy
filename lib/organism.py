@@ -1,11 +1,12 @@
 
 
-class Organism:
-    def __init__(self, coords=(0,0), survival_trait=0,
-                 reproductive_trait=0):
-        self.coords = coord
-        self.survival_trait = survival_trait
-        self.reproductive_trait = reproductive_trait
-
+class OrganismFactory:
+    def create(self, *args, **kwargs):
+        return Organism(*args, **kwargs)
 
         
+class Organism:
+    def __init__(self, coords=[0,0], survival=0, reproduction=0):
+        self.coordinates = list(coords)
+        self.survival_trait = survival
+        self.reproductive_trait = reproduction

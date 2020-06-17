@@ -1,0 +1,135 @@
+Simulation Process
+    - init >
+        (survival/consumption/reproduction > inheritance > mutation > record) >
+        export
+
+---
+
+Initialization Process
+    - Input variables
+        - initial population size
+        - initial global
+            - breeding population range
+            - speciation threshold
+            - mutation rate
+            - mutation variance
+            - inheritance model
+            - proliferation
+        - initial environment
+            - size
+                - max longitude, max latitude
+            - survival target
+            - resource
+                - max
+                - recovery rate
+        - event roster
+        - initial organism trait
+            - survival
+            - reproductive
+            - consumption
+            - territory range
+            - offspring range
+            - proliferation
+        - display model
+
+---
+
+Survival Process
+
+Consumption Process
+
+Reproduction Process
+
+Inheritance Process
+
+Mutation Process
+
+Recording Process
+
+Movement Process
+
+Event Process
+
+---
+
+Export Process
+
+----------------------------------------------------------------------
+Organism variables
+
+Reproductive Trait
+    - per organism
+    - arbitrary numeric value
+    - compared between members of a breeding pair to determine
+        reproductive feasibility
+    - if difference between members is greater than speciation threshold,
+        breeding fails
+
+Survival Trait
+    - per organism
+    - arbitrary numeric value
+    - compared to survival target of environment
+    - if difference between organism and environment is greater than
+        environments survival target, they cannot breed.
+
+Consumption Trait
+    - per organism
+    - determines how much resource is consumed by organism prior to
+        reproduction
+    - environment has limited resources, the most survival fit will be
+        prioritized in resource allocation
+    - organisms whose consumption trait is not met cannot breed.
+
+Territory Range
+    - per organism
+    - determines how far an organism can move from its current position.
+
+Offspring Range
+    - curve or static, global (or per environment?)
+    - RNG coordinate range from the center distance between
+        members of a breeding pair in which a new organism created
+
+Proliferation Modifier
+    - per organism
+    - modifier that determines how much survival and consumption fitness
+        contributes to offspring rate
+    - should not be lower than 1
+
+Fitness (Survival/Reproductive)
+    - per organism
+    - absolute distance between organism's trait and environment/reproduction
+        target
+    - the closer fitness is to 0, the more fit the organism
+
+----------------------------------------------------------------------
+Environment variables
+
+----------------------------------------------------------------------
+Global variables
+
+Breeding Population Range
+    - static, global
+    - environment is broken into breeding range baskets
+    - organisms within breeding range form breeding pairs
+
+Speciation Threshold
+    - static, global
+    - organism reproduction trait comparison;
+        if difference between organisms > threshold,
+        organisms cannot breed.
+
+Mutation Rate
+    - static, global
+    - RNG roll to determine if mutation occurs in given trait
+    - roll for modifier for each trait in each breeding pair
+
+Mutation Variance Modifier Range
+    - curve or static, global
+    - RNG roll to determine trait modifier for trait mutation
+
+Inheritance Model
+    - static, per trait
+    - dominance or average based
+    - either can be weighted in either direction
+
+
