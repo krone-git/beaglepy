@@ -205,7 +205,7 @@ Max Resource
     - determines which of the fittest organisms can breed.
 
 Resource Replenishment Rate
-    - rate at which resources will replenish with in the environment
+    - rate at which resources will replenish within the environment
 
 ----------------------------------------------------------------------
 Global variables

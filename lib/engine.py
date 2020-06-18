@@ -20,7 +20,12 @@ class SimulationEngine:
         self._history = history
         self._processes = processes
 
+    @property
+    def full_history(self)
+        return self._history.history
+    
+
     def run(self):
         for process in self._processes:
             process.execute(self._state, self._history)
-        return self._history
+        return self.full_history()
