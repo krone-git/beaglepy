@@ -7,4 +7,5 @@ class SimulationStateFactory:
 
 class SimulationState:
     def __init__(self, *args, **kwargs):
-        pass
+        self.state = dict()
+
