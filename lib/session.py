@@ -3,18 +3,15 @@ from .export import ExportHandlerFactory
 
 
 class Session:
-    def __init__(self, generations, *args, exporter=None, **kwargs):
-        self._engine = SimulationEngineFactory.create(
-            generations=generations,
-            **kwargs
-            )
-        self._export_handler = ExportHandlerFactory.create(**kwargs)
+    def __init__(self, *args, **kwargs):
+        self._engine = SimulationEngineFactory.create(**kwargs)
+        self._exporter = ExportHandlerFactory.create(**kwargs)
 
     def simulate(self):
-        self._engine.simulate()
+        self._engine.run()
 
     def export(self, path=None):
-        self._export_handler.export(
-            path=path,
-            history=self._engine.full_history()
+        self._exporter.execute(
+            data=self._engine.state,
+            history=self._engine.history
             )
