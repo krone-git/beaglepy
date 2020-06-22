@@ -9,7 +9,8 @@ class ConsoleFactory:
 class Console(metaclass=ABCMeta):
     def __init__(self, *args, **kwargs):
         pass
-    
+
+    @abstractmethod
     def print(self, *args, **kwargs):
         raise NotImplementedError
 

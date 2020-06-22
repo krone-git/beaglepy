@@ -1,12 +1,24 @@
+from .state import SimulationStateHandler
 
 
 class OrganismFactory:
-    def create(self, *args, **kwargs):
-        return Organism(*args, **kwargs)
+    _id = 0
 
-        
-class Organism:
-    def __init__(self, coords=[0,0], survival=0, reproduction=0):
-        self.coordinates = list(coords)
-        self.survival_trait = survival
-        self.reproductive_trait = reproduction
+    @classmethod
+    def create(cls, parents=[None, None]):
+        cls._id += 1
+        return {
+            cls._id: {
+                SimulationStateHandler.ID: cls._id,
+                OrganismEnum.PARENTS: parents
+                }
+            }
+
+
+class OrganismHandler(SimulationStateHandler):
+    NAMESPACE = "organisms"
+    PARENTS = "parents"
+
+    @classmethod
+    def get_parents(cls, organism):
+        return self.get_value(organism, cls.PARENTS)

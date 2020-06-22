@@ -45,7 +45,7 @@ Initialization Process
         - export variabls
             - path
             - format
-        
+
 
     - Proliferate organisms equal to the initial population size
 
@@ -70,7 +70,7 @@ Reproduction Process
         - if distance between current and previous index if greater than
             speciation threshold, new pool of breeding pairs is established
         - if population is uneven, least fit organism in pool is removed
-    
+
     Inheritance Process
         - Dominance Strategy
             - randomly selects trait from one parent for inheritance
@@ -78,9 +78,9 @@ Reproduction Process
             - randomly selects value between traits of both parents for
                 inheritance
         - Average Strategy
-            - uses the rounded average of triat between both parents for
+            - uses the rounded average of trait between both parents for
                 inheritance
-    
+
     Mutation Process
         - roll RNG per breeding pair to determine if mutation event occurs
         - randomly select trait for each mutation event
@@ -101,7 +101,7 @@ End Check Process
 Upkeep Process
     (
     Replenishment Process
-        - replensh all environments' resource count based on their modifier
+        - replenish all environments' resource count based on their modifier
             up to their max
     )
 
@@ -188,7 +188,7 @@ Longitude and Latitude
 Range radius
     - max distance an organism can be from environment center to contained
         within that environment
-    
+
 ##Range function
 ##    - function that determines the outer edge of an environment
 ##    - coordinates of an organism are passed to function to determine if
@@ -240,5 +240,3 @@ Inheritance Model
     - static, per trait
     - dominance or average based
     - either can be weighted in either direction
-
-
