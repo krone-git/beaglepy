@@ -1,19 +1,15 @@
 from .probablity import ProbabilityCurveFactory
-from abc import ABCMeta, abstractmethod
+from .trait import TraitSubHandler
 from random import randint
 from statistics import mean
 from math import floor
 
 
-class InheritanceHandler(metaclass=ABCMeta):
+class InheritanceHandler(TraitSubHandler):
     def __init__(self, probability_curve=None, **kwargs):
         if probability_curve is None:
             probability_curve = ProbabilityCurveFactory(**kwargs)
         self._probability_curve = probability_curve
-
-    @abstractmethod
-    def handle(self, parent_a, parent_b):
-        raise NotImplementedError
 
 
 class DominanceInheritanceHandler(InheritanceHandler):

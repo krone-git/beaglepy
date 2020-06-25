@@ -1,8 +1,15 @@
 from abc import ABCMeta, abstractmethod
 
 
+
+class SimulationProcessFactory:
+    @classmethod
+    def create(cls, **kwargs):
+        return SimulationProcess(**kwargs)
+
+
 class SimulationProcess(metaclass=ABCMeta):
-    def __init__(self, *args, processes=(), **kwargs):
+    def __init__(self, processes=(), **kwargs):
         self._processes = list(processes)
 
     def execute(self, state, history, console):
@@ -13,4 +20,3 @@ class SimulationProcess(metaclass=ABCMeta):
     @abstractmethod
     def operation(self, state, history, console):
         raise NotImplementedError
-

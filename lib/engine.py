@@ -1,19 +1,23 @@
 from .state import SimulationStateFactory
 from .history import SimulationHistoryFactory
+from .process import SimulationProcessFactory
+from .console import SimulationConsoleFactory
 
 
 class SimulationEngineFactory:
     @classmethod
-    def create(self, processes=(), **kwargs):
-        state = SimulationStateFactory(**kwargs)
-        history = SimulationHistoryFactory(**kwargs)
-        console = S
+    def create(self, **kwargs):
+        state = SimulationStateFactory.create(**kwargs)
+        history = SimulationHistoryFactory.create(**kwargs)
+        processes = SimulationProcessFactory.create(**kwargs)
+        console = SimulationConsoleFactory.create(**kwargs)
         return SimulationEngine(
             state=state,
             history=history,
-            processes=processes
+            processes=processes,
+            console=console
             )
-    
+
 
 class SimulationEngine:
     def __init__(self, state=None, history=None, processes=(), console=None):
@@ -22,7 +26,7 @@ class SimulationEngine:
         self._processes = processes
         self._console = console
 
-    def run(self):
+    def execute(self):
         for process in self._processes:
             process.execute(self._state, self._history, self._console)
         return self._history
