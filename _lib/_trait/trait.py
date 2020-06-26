@@ -1,5 +1,4 @@
-from ..handler import ObjectHandler
-from .subtrait import SubTraitHandlerFactory
+from .handler import ObjectHandler
 from abc import ABCMeta, abstractmethod
 
 
@@ -44,6 +43,4 @@ class TraitHandler(ObjectHandler):
     # def collect(self, handler, obj):
     #     self._collection_handler.handle(handler, obj)
     #     return self
-
-
 

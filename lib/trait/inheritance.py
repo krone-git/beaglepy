@@ -1,11 +1,11 @@
-from .probablity import ProbabilityCurveFactory
-from .trait import TraitSubHandler
+from ..probablity import ProbabilityCurveFactory
+from .subtrait import TraitSubHandler
 from random import randint
 from statistics import mean
 from math import floor
 
 
-class InheritanceHandler(TraitSubHandler):
+class TraitInheritanceHandler(TraitSubHandler):
     def __init__(self, probability_curve=None, **kwargs):
         if probability_curve is None:
             probability_curve = ProbabilityCurveFactory(**kwargs)

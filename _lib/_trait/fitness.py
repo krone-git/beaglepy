@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 from .trait import TraitSubHandler
 
 
-class FitnessHandler(TraitSubHandler):
+class TraitFitnessHandler(TraitSubHandler):
     def __init__(self, threshold=None, **kwargs):
         TraitSubHandler.__init__(self, **kwargs)
         self._threshold = threshold
