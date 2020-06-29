@@ -10,5 +10,4 @@ class SimulationHistory:
         self._history = dict()
 
     def to_dict(self):
-        return return self._history
-        
+        return self._history

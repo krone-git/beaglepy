@@ -1,4 +1,0 @@
-
-
-class CollectionHandler:
-    pass

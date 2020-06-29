@@ -1,6 +1,10 @@
-from ..handler import ObjectHandler
-from .subtrait import SubTraitHandlerFactory
+from .handler import ObjectHandler
 from abc import ABCMeta, abstractmethod
+
+
+class TraitHandlerFactory:
+    def create(self, **kwargs):
+        pass
 
 
 class TraitHandler(ObjectHandler):
@@ -41,9 +45,23 @@ class TraitHandler(ObjectHandler):
         self._upkeep_handler.handle(obj)
         return self
 
-    # def collect(self, handler, obj):
-    #     self._collection_handler.handle(handler, obj)
-    #     return self
+    def collect(self, handler, obj):
+        value = self.get_trait(obj)
+        handler.add(value, obj)
+        return self
 
 
+class TraitSubHandler(metaclass=ABCMeta):
+    def __init__(self, name=None):
+        self._name = name
 
+    @abstractmethod
+    def handle(self, value, target):
+        raise NotImplementedError
+
+    def get_value(self, target):
+        return ObjectHandler.get_value(target, self._name)
+
+    def set_value(self, target, value):
+        ObjectHandler.set_value(target, self._name, value)
+        return self

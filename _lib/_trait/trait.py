@@ -1,4 +1,5 @@
-from .handler import ObjectHandler
+from ..handler import ObjectHandler
+from .subtrait import SubTraitHandlerFactory
 from abc import ABCMeta, abstractmethod
 
 
@@ -14,7 +15,7 @@ class TraitHandler(ObjectHandler):
         for handler in (inheritance_handler, mutation_handler,
                         fitness_handler, upkeep_handler):
             if handler._name is None:
-                handler._name = name
+                handler._name = self._name
 
     def get_trait(self, obj):
         return self.get_value(obj, self._name)
@@ -40,7 +41,7 @@ class TraitHandler(ObjectHandler):
         self._upkeep_handler.handle(obj)
         return self
 
-    # def collect(self, handler, obj):
-    #     self._collection_handler.handle(handler, obj)
-    #     return self
-
+    def collect(self, handler, obj):
+        value = self.get_trait(obj)
+        handler.add(value, obj)
+        return self
