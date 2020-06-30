@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 
 
 class ComponentType(metaclass=ABCMeta):
-    def __init__(self, parent=None):
+    def __init__(self, *args, parent=None, **kwargs):
         self.set_parent(parent)
 
     @property

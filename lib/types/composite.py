@@ -2,7 +2,8 @@ from abc import ABCMeta, abstractmethod
 
 
 class CompositeType(metaclass=ABCMeta):
-    def __init__(self, elements=(), accepts_element_types=None, unique=False):
+    def __init__(self, *args, elements=(), accepts_element_types=None,
+                    unique=False, **kwargs):
         self._elements = list()
         self.add_many(elements)
         self._acceptable_types = accepts_element_types
