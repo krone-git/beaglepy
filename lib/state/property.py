@@ -6,7 +6,7 @@ class StateProperty(StatePropertyType):
 
 
 class StatePropertyType(metaclass=ABCMeta):
-    def __init__(self, name, namespace=[]):
+    def __init__(self, name, namespace=[], **kwargs):
         self._name = name
         self._namespace = namespace
 
@@ -16,7 +16,7 @@ class StatePropertyType(metaclass=ABCMeta):
 
     @property
     def namespace(self):
-        return self._namespace
+        return self._namespace.copy()
 
     def get_value(self, state):
         return state.get_value(self._name, namespace=self._namespace)
