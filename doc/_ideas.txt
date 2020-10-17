@@ -42,7 +42,7 @@ Initialization Process
             - proliferation
         - event roster
         - display model
-        - export variabls
+        - export variables
             - path
             - format
 

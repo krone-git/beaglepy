@@ -1,0 +1,315 @@
+
+API Components
+******************************************************************************
+
+Component Types
+==============================================================================
+
+ComponentType
+------------------------------------------------------------------------------
+  "Abstract base class for all components."
+
+
+NameComponent
+------------------------------------------------------------------------------
+  "Holds 'name' property for use in 'get' methods and identification in
+    simulation results."
+  - implements: ComponentType
+  - property: name
+    - <str>
+    - public
+
+
+DescriptionComponent
+------------------------------------------------------------------------------
+  "Holds 'description' property for identification in simulation results."
+  - implements: ComponentType
+  - property: description
+    - <str>
+    - public
+
+
+SimulationComponent
+------------------------------------------------------------------------------
+  "Holds 'simulation' property for use in referencing other aspects of
+    the simulation."
+  - implements: ComponentType
+  - property: simulation
+    - <Simulation>
+    - private
+
+
+Collection Types
+==============================================================================
+
+ComponentCollection
+------------------------------------------------------------------------------
+  "Abstract base class for all component collections"
+  - property: collection
+    "Collection of ComponentType instances"
+    - tuple<ComponentType>
+    - public
+
+  - method: get
+    "Returns ComponentType instance in 'collection' at 'index'"
+    - params: self, index <int>
+    - returns: <ComponentType>
+    - public
+  - method: __getitem__
+    "Convenience wrapper for 'get' method"
+    - public, wrapper, dunder
+
+
+MutableComponentCollection
+------------------------------------------------------------------------------
+  "Extension of ComponentCollection class that allows for manipulation of
+    underlying 'collection'"
+  - property: collection
+    - list<ComponentType>
+    - public, override
+
+  - method: add
+    "Appends ComponentType instance to the end of 'collection'"
+    - params: self, component <ComponentType>
+    - returns: self
+    - public
+  - method: add_new
+    "Instantiates new ComponentType instance and adds it to 'collection'"
+    - params: self, *args, **kwargs
+    - returns: <ComponentType>
+    - public
+  - method: add_many
+    "Extends an iterable of ComponentType instance to the end of 'collection'"
+    - params: self, components Iterable<ComponentType>
+    - returns: self
+    - public
+  - method: pop
+    "Removes and returns ComponentType instance in 'colleciton' at index"
+  - method: remove
+    "Removes ComponentType instance from 'collection'"
+    - params: self, component <ComponentType>
+    - returns: self
+    - public
+  - method: remove_many
+    "Removes an iterable of ComponentType instances from 'collection'"
+    - params: self, components Iterable<ComponentType>
+    - returns: self
+    - public
+
+
+NameComponentCollection
+------------------------------------------------------------------------------
+  "Component collection class that uses key/value getter and setter methods
+    to work with components in 'collection' based on the component's name"
+  - implements: ComponentCollection
+  - property: collection
+    "Ordered dictionary of ComponentType instances with each component's name
+      as the key and the component as the value"
+    - OrderedDict<str, ComponentType>
+    - public
+
+  - method: format_component_name
+    "Converts string 'name' to lower_case to make name keys case-insensitive"
+    - params: name <str>
+    - returns: <str>
+    - private
+  - method: get
+    "Returns ComponentType instance with name 'name'"
+    - params: self, name <str>
+    - returns: <ComponentType>
+    - public, override
+  - method: __getitem__
+    "Convenience wrapper for 'get' method"
+    - public, wrapper, dunder
+
+
+MutableNameComponentCollection
+------------------------------------------------------------------------------
+  ""Extension of NameComponentCollection class that allows for manipulation
+    of underlying 'collection'""
+  - method: add
+    "Inserts NameComponent instance into 'collection' with it's name as the
+      key"
+    - params: self, component <NameComponent>
+    - returns: self
+    - public
+  - method: add_many
+    "Inserts an iterable of NameComponent instances into 'collection' with
+      each component's name as it's key"
+    - params: self, components Iterable<NameComponent>
+    - returns: self
+    - public
+  - method: remove
+    "Removes NameComponent instance from 'collection' with name 'name' and
+      returns it"
+    - params: self, name <str>
+    - returns: <NameComponent>
+    - public
+  - method: remove_many
+    "Removes NameComponent instances from 'collection' with names 'names'
+      and returns them in a dictionary with each component's name as the key"
+    - params: self, names Iterable<str>
+    - returns: dict<str, NameComponent>
+    - public
+
+
+ConstantComponentCollection
+------------------------------------------------------------------------------
+  "Extension of NameComponentCollection class; Alters '__getattribute__'
+    to return the name of a component in 'collection' as if it were a
+    property"
+  - implements: NameComponentCollection
+  - method: __getattribute__
+    "Returns formatted component name 'name', if 'name' is uppercase and
+      found in 'collection'"
+      - params: self, name <str>
+      - returns: <str>
+      - public, dunder
+
+
+PropertyComponentCollection
+------------------------------------------------------------------------------
+  "Extension of NameComponentCollection class; Alters '__getattribute__'
+    to return a component in 'collection' as if it were a property"
+  - implements: NameComponentCollection
+  - method: __getattribute__
+    "Convenience wrapper for 'get' method; Returns ComponentType in
+      'collection' with name 'name', if 'name' is lowercase and found
+      in 'collection'"
+    - params: self, name <str>
+    - returns: <ComponentType>
+    - public, wrapper, dunder
+
+
+SimulationComponentCollection
+------------------------------------------------------------------------------
+  "Component collection class that handles setting and resetting the
+    'simulation' property of its component members"
+  - implements: ComponentCollection, SimulationComponent
+  - method: add
+    "Sets component's 'simulation' property to it's own 'simulation' property,
+      then adds component to 'collection'"
+    - public, wrapper
+  - method: remove
+    "Sets component's 'simulation' property to None, then removes it from
+      'collection'"
+    - public, wrapper
+
+
+Components
+==============================================================================
+
+Trait
+------------------------------------------------------------------------------
+  "Component that handles trait values of Biome and Organism instances"
+  - implements: NameComponent, DescriptionComponent
+  - public
+  - property: components
+    "Tuple of classes that are affected by the trait"
+    - tuple<type>
+    - public
+  - property: initial
+    "The initial value of the trait."
+    - <dynamic>
+    - public
+
+  (Biome Trait only properties)
+  - property: upkeep
+    "Handler method that determines changes to the Biome during the
+      Upkeep process"
+    - <callable>
+    -public
+
+  (Organism Trait only properties)
+  - property: fitness
+    "Handler method that determines the propagation eligibility of an
+      organism"
+    - <callable>
+    - public
+  - property: inheritance
+    "Handler method that determines the trait value of offspring inherited
+      from the trait value of its parents"
+    - <callable>
+    - public
+  - property: mutation
+    "Handler method that determines the mutation value added to the
+      trait value of offspring after inheritance"
+    - <callable>
+    - public
+
+
+Biome
+------------------------------------------------------------------------------
+  ""
+  - implements: NameComponent, DescriptionComponent, SimulationComponent
+  - public
+  - property: traits
+    "Collection of BiomeTrait instances that correspond with the relevant
+      Trait components in the simulation and allows for the setting of
+      trait values for an individual Biome instance"
+    - <BiomeTraitCollection>
+    - private
+
+  - method: get
+    "Returns BiomeTrait instance with name 'name'"
+    - params: self, name <str>
+    - returns: <BiomeTrait>
+    - public
+  - method: set
+    "Sets variable 'varname' of BiomeTrait instance with name 'trait_name'
+      to value"
+    - params: self, trait_name <str>, varname <str>, value <dynamic>
+    - returns: self
+    - public
+  - method: __getattribute__
+    "Convenience wrapper for 'get' method; Returns BiomeTrait with name 'name'
+      in 'traits' if 'name' is lowercase and found in 'traits'"
+    - params: self, name <str>
+    - returns: <BiomeTrait>
+    - public, wrapper, dunder
+
+
+BiomeTrait
+------------------------------------------------------------------------------
+  ""
+  - private
+  - property: trait
+    - <Trait>
+    - public
+  - property:
+
+Event
+------------------------------------------------------------------------------
+  ""
+  - implements: NameComponent, DescriptionComponent
+  - public
+
+
+
+Collections
+==============================================================================
+
+TraitCollection
+------------------------------------------------------------------------------
+  ""
+  - implements: ConstantComponentCollection, PropertyComponentCollection
+
+
+BiomeCollection
+------------------------------------------------------------------------------
+  ""
+  - implements: ConstantComponentCollection, PropertyComponentCollection,
+                  SimulationComponentCollection
+
+
+BiomeTraitCollection
+------------------------------------------------------------------------------
+  ""
+  - implements: ConstantComponentCollection, PropertyComponentCollection,
+                  SimulationComponentCollection
+
+
+EventCollection
+------------------------------------------------------------------------------
+  ""
+  - implements: ConstantComponentCollection, PropertyComponentCollection

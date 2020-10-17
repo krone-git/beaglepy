@@ -1,0 +1,202 @@
+
+Builtin Components
+******************************************************************************
+
+Environment Settings
+==============================================================================
+  Generation count              = 1000
+    - Integer
+
+  Initial population count      = 100
+    - Integer
+
+  Initial propagation location  = <center of World Size>
+    - 2D tuple of integers
+
+  Initial propagation range     = 100
+    - Integer
+
+  Initial species count         = 1
+    -Integer
+
+  Speciation threshold          = 10
+    -Integer
+
+  World size                    = (1000, 1000)
+    -2D tuple of integers
+
+  World climate                 = 100
+    - Integer
+
+  World climate threshold       = 100
+
+
+Traits
+==============================================================================
+State Values
+------------------------------------------------------------------------------
+Id*
+  "Unique Id provided to each biome and organism upon creation; can be used
+    to find object."
+  - Biome, Organism
+  - Integer (Non-Arithmetic)
+
+Parents*
+  "2D tuple containing the 'Id' of organism's parents."
+  - Organism
+  - 2D tuple of non-arithmetic integers
+
+Location*
+  "2D tuple denoting organism location or biome center; used to determine
+    if an organism falls within a biome's radius or another organism's
+    propagation radius."
+  - Biome, Organism
+  - 2D tuple of integers
+
+Propagation Radius*
+  "Distance from organism's location; used when determining organism
+    breeding pairs."
+  - Organism
+  - Integer
+  - Organism vs. Organism
+  - Propagation Trait
+
+Offspring Radius*
+  "Distance between offspring's and parents' location upon propagation;
+    used to determine offspring's location after propagation"
+  - Organism
+  - Integer
+  - Organisms vs. Organism
+  - Propagation Trait
+
+Offspring Count*
+  "The number of offspring produced between two parents during propagation."
+  - Organism
+  - Integer
+  - Propagation Trait
+
+Border Radius*
+  "Distance from biome's location; used to determine if an organism falls
+    within a biome's area."
+  - Biome
+  - Integer
+  - Organism vs. Biome
+  - Selection Trait
+
+Species*
+  "denotes an organism's species; used when determining breeding pairs."
+  - Organism
+  - Integer
+  - Organism vs. Organism
+  - Selection Handler
+
+Fitness* ======
+  Climate Survivability (default) ------
+    "Compares organism's 'Climate Tolerance' to Biome's 'Climate'.
+      If the difference falls outside of Biome's 'Climate Tolerance Range',
+      organism is removed from breeding pool."
+    - Organism vs. Biome
+
+    Climate
+      - Biome
+      - Integer
+
+    Climate Tolerance Range
+      - Biome
+      - Integer
+
+    Climate Tolerance
+      - Organism
+      - Integer
+      - Selection Handler
+
+  Resource Competition ------
+    "Compares Organism's 'Resource Consumption' to Biome's 'Resources'.
+      If 'Resources' is greater than 'Resource Consumption', 'Resources'
+      is reduced by 'Resource Consumption'. Otherwise, Organism is
+      removed from the breeding pool. During upkeep, 'Resources' is
+      increased by Biome's 'Resource Replenishment Rate'."
+    - Organism vs. Biome
+
+    Resources
+      - Biome
+      - Integer
+
+    Resource Replenishment Rate
+      - Biome
+      - Integer
+      - Upkeep Handler
+
+    Resource Consumption
+      - Organism
+      - Integer
+      - Selection Handler
+
+  <? Propagation Competition> ------
+    ""
+    - Organism vs. Organism
+
+    <? Propagation Tolerance>
+      - Organism
+      - Integer
+
+    <? Propagation Fitness>
+      - Organism
+      - Integer
+      - Selection Handler
+
+* Required
+
+Inheritance Models
+------------------------------------------------------------------------------
+Random Range (default)
+  "Randomly selects a value between the upper and lower bound parents'
+    trait value from which the offspring inherit; Favors neither
+    centralization nor decentralization of trait value"
+
+Mean
+  "Calculates the mean of the upper and lower bound parent's trait Value
+    from which the offspring inherit; Favors centralization of trait value."
+
+Random Parent
+  "Randomly selects the upper bound or lower bound parents' trait value from
+    which the offspring inherit; Favors decentralization of trait value."
+
+<? Dominance>
+  ""
+
+Mutation Models
+------------------------------------------------------------------------------
+Random Range (default)
+  "Randomly selects a value within a positive/negative range for the mutation
+    value; Favors neither centralization nor decentralization of trait value."
+
+Normalized Distribution
+  "Randomly selects a value within a normally distributed positive/negative
+    range for the mutation value; Favors centralization of trait value."
+
+<? Skewed Distribution>
+  "; Favors centralization of trait value toward one direction."
+
+<? Inverted Distribution>
+  "; Favors decentralization of trait value."
+
+Biomes
+==============================================================================
+World
+  - Location = center of Environment Settings > World size
+  - Border Radius = distance from Location to max World size
+  - Climate = EnviromentSettings > World climate
+  - Climate Tolerance = EnvironmentSettings > World climate threshold
+
+Events
+==============================================================================
+None
+
+
+Suites
+==============================================================================
+
+<? Contagion>
+------------------------------------------------------------------------------
+###

@@ -1,0 +1,3 @@
+
+BIOME = "biome"
+WORLD = "world"

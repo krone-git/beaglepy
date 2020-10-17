@@ -1,0 +1,21 @@
+
+Design Phase
+******************************************************************************
+
+Interface Hierarchy
+------------------------------------------------------------------------------
+Simulation
+  - EnviromentSettings
+
+  - TraitCollection
+    - Trait
+      - SurvivalHandler
+      - InheritanceHandler
+      - MutationHandler
+
+  - BiomeCollection
+    - Biome
+
+  - EventCollection
+    - Event
+      - EffectHandler

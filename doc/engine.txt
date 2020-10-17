@@ -1,0 +1,55 @@
+
+Engine Phase
+******************************************************************************
+
+Engine building
+==============================================================================
+Simulation  >>  SimulationEngine
+  - Traits  >>    - TraitHandler
+  - Biomes  >>    - BiomeHandler
+  - Events  >>    - EventHandler
+
+
+Simulation Process
+==============================================================================
+  - Design
+  - Run
+    - Instantiate State
+      - Initial Propagation
+    ## BEGIN FOR
+      - Increment generation
+      - Selection handler
+      - Propagation handler
+        - Inheritance Trait handler
+          - Mutation Trait handler
+      - Upkeep handler
+      - Event Handler
+      - Record State
+    ## NEXT
+    ## END FOR
+
+  - Export
+
+
+Processes
+==============================================================================
+
+Instantiate State
+------------------------------------------------------------------------------
+  ""
+
+Selection
+------------------------------------------------------------------------------
+  ""
+
+Propagation
+------------------------------------------------------------------------------
+  ""
+
+Upkeep
+------------------------------------------------------------------------------
+  ""
+
+Event
+------------------------------------------------------------------------------
+  ""
